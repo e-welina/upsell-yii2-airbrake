@@ -1,0 +1,1 @@
+# upsell-yii2-airbrake
