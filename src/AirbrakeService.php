@@ -33,9 +33,7 @@ class AirbrakeService extends Component
     /** @var ParamsFilter[] Items of the array will be added as filters */
     public $filters;
 
-    /** @var string|null Root directory of application (optional) */
-    public $rootDirectory;
-
+ 
     /** @var string Service server host */
     public $host = 'api.airbrake.io';
 
@@ -80,7 +78,6 @@ class AirbrakeService extends Component
             'projectKey' => $this->projectKey,
             'appVersion' => $this->appVersion,
             'environment' => $this->environment,
-            'rootDirectory' => Yii::getAlias($this->rootDirectory),
             'host' => $this->host
         ]);
 
