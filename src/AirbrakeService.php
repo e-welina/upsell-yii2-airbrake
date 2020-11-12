@@ -51,6 +51,12 @@ class AirbrakeService extends Component
 
     /** @var ErrorHandler */
     private $_handler;
+    
+    /**
+     * Http client
+     * @var GuzzleHttp\ClientInterface
+     */
+    private $httpClient;
 
     /**
      * Initializes the object.
@@ -79,7 +85,8 @@ class AirbrakeService extends Component
             'appVersion' => $this->appVersion,
             'environment' => $this->environment,
             'rootDirectory' => Yii::getAlias($this->rootDirectory),
-            'host' => $this->host
+            'host' => $this->host,
+            'httpClient' => $this->httpClient
         ]);
 
         if (is_array($this->filters)) {

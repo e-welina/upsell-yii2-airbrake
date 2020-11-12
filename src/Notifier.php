@@ -26,8 +26,7 @@ class Notifier extends AirbrakeNotifier
         return $this->httpClient;
     }
 
-   
-    
+ 
     
     public function buildNotice($exc)
     {
