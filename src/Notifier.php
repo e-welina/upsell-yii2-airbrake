@@ -11,6 +11,25 @@ class Notifier extends AirbrakeNotifier
    
     private $httpClient;
  
+    public function __construct($opt)
+    {
+        parent::__construct($opt);
+        $this->httpClient = $this->newHTTPClient();
+    }
+
+    private function newHTTPClient()
+    {
+        
+        if ($this->opt['httpClient'] instanceof GuzzleHttp\ClientInterface) {
+                return $this->opt['httpClient'];
+        }
+        
+        return new Client([
+            'connect_timeout' => 5,
+            'read_timeout' => 5,
+            'timeout' => 5
+        ]);
+    }
     
     protected function sendRequest($req)
     {
