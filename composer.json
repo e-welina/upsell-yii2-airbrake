@@ -1,5 +1,5 @@
 {
-  "name": "upsell/yii2/airbrake",
+  "name": "e-welina/upsell-yii2-airbrake",
   "description": "Yii2 PHPBrake integration",
   "keywords": [
     "yii2",
@@ -9,13 +9,10 @@
     "reporting",
     "logging"
   ],
-  "homepage": "https://github.com/biller/yii2-phpbrake",
+  "homepage": "https://github.com/e-welina/upsell-yii2-airbrake",
   "type": "yii2-extension",
   "license": "MIT",
-  "support": {
-    "issues": "https://github.com/biller/yii2-phpbrake/issues",
-    "source": "https://github.com/biller/yii2-phpbrake"
-  },
+  
   "minimum-stability": "stable",
   "require": {
     "yiisoft/yii2": ">=2.0.5",
@@ -23,7 +20,7 @@
   },
   "autoload": {
     "psr-4": {
-      "biller\\phpbrake\\": "src"
+      "e-welina\\upsell-yii2-airbrake\\": "src"
     }
   }
 }
