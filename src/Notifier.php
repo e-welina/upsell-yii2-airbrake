@@ -11,7 +11,6 @@ use Yii;
 
 class Notifier extends AirbrakeNotifier
 {
-    private static $instanceCount = 0;
     /**
      * Http client
      * @var GuzzleHttp\ClientInterface
@@ -20,57 +19,24 @@ class Notifier extends AirbrakeNotifier
  
     public function __construct($opt)
     {
-        if (empty($opt['projectId']) || empty($opt['projectKey'])) {
-            throw new Exception('phpbrake: Notifier requires projectId and projectKey');
-        }
-
-        if (isset($opt['keysBlacklist'])) {
-            error_log(
-                'phpbrake: keysBlacklist is a deprecated option. Use keysBlocklist instead.'
-            );
-            $opt['keysBlocklist'] = $opt['keysBlacklist'];
-        }
-
-        $this->opt = array_merge([
-          'host' => 'api.airbrake.io',
-          'keysBlocklist' => ['/password/i', '/secret/i'],
-        ], $opt);
-
+        parent::__construct($opt);
         $this->httpClient = $this->newHTTPClient();
-        $this->noticesURL = $this->buildNoticesURL();
-        $this->codeHunk = new CodeHunk();
-        $this->context = $this->buildContext();
-
-        if (array_key_exists('keysBlocklist', $this->opt)) {
-            $this->addFilter(function ($notice) {
-                $noticeKeys = array('context', 'params', 'session', 'environment');
-                foreach ($noticeKeys as $key) {
-                    if (array_key_exists($key, $notice)) {
-                        $this->filterKeys($notice[$key], $this->opt['keysBlocklist']);
-                    }
-                }
-                return $notice;
-            });
-        }
-
-        if (self::$instanceCount === 0) {
-            Instance::set($this);
-        }
-        self::$instanceCount++;
-       
+        
     }
 
     private function newHTTPClient()
     {
         
-        if ($this->opt['httpClient'] instanceof GuzzleHttp\ClientInterface) {
+        if (array_key_exists('httpClient', $this->opt)) {
+            if ($this->opt['httpClient'] instanceof \GuzzleHttp\ClientInterface) {
                 return $this->opt['httpClient'];
+            }
+            throw new Exception('phpbrake: httpClient must implement GuzzleHttp\ClientInterface');
         }
-        
         return new Client([
-            'connect_timeout' => 5,
-            'read_timeout' => 5,
-            'timeout' => 5
+            'connect_timeout' => 10,
+            'read_timeout' => 10,
+            'timeout' => 10,
         ]);
     }
     
