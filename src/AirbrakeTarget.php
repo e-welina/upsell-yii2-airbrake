@@ -1,6 +1,6 @@
 <?php
 
-namespace upsell\yii2\airbrake;
+namespace upsell\airbrake;
 
 use Airbrake\Errors\Error;
 use Airbrake\Errors\Notice;

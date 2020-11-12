@@ -1,6 +1,6 @@
 <?php
 
-namespace upsell\yii2\airbrake;
+namespace upsell\airbrake;
 
 use Airbrake\Notifier as AirbrakeNotifier;
 use GuzzleHttp\Client;
