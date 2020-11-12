@@ -27,12 +27,6 @@ class Notifier extends AirbrakeNotifier
     private function newHTTPClient()
     {
         
-        if (array_key_exists('httpClient', $this->opt)) {
-            if ($this->opt['httpClient'] instanceof \GuzzleHttp\ClientInterface) {
-                return $this->opt['httpClient'];
-            }
-            throw new Exception('phpbrake: httpClient must implement GuzzleHttp\ClientInterface');
-        }
         return new Client([
             'connect_timeout' => 10,
             'read_timeout' => 10,
