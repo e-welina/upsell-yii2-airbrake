@@ -13,8 +13,7 @@
   "type": "yii2-extension",
   "license": "MIT",
   
-  "minimum-stability": "stable",
-  "require": {
+   "require": {
     "yiisoft/yii2": ">=2.0.5",
     "airbrake/phpbrake": "^0.7.5"
   },
