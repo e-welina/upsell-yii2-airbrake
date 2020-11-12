@@ -4,17 +4,58 @@ namespace upsell\airbrake;
 
 use Airbrake\Notifier as AirbrakeNotifier;
 use GuzzleHttp\Client;
+
 use Yii;
 
 class Notifier extends AirbrakeNotifier
 {
    
+    /**
+     * Http client
+     * @var GuzzleHttp\ClientInterface
+     */
     private $httpClient;
  
     public function __construct($opt)
     {
-        parent::__construct($opt);
+        if (empty($opt['projectId']) || empty($opt['projectKey'])) {
+            throw new Exception('phpbrake: Notifier requires projectId and projectKey');
+        }
+
+        if (isset($opt['keysBlacklist'])) {
+            error_log(
+                'phpbrake: keysBlacklist is a deprecated option. Use keysBlocklist instead.'
+            );
+            $opt['keysBlocklist'] = $opt['keysBlacklist'];
+        }
+
+        $this->opt = array_merge([
+          'host' => 'api.airbrake.io',
+          'keysBlocklist' => ['/password/i', '/secret/i'],
+        ], $opt);
+
         $this->httpClient = $this->newHTTPClient();
+        $this->noticesURL = $this->buildNoticesURL();
+        $this->codeHunk = new CodeHunk();
+        $this->context = $this->buildContext();
+
+        if (array_key_exists('keysBlocklist', $this->opt)) {
+            $this->addFilter(function ($notice) {
+                $noticeKeys = array('context', 'params', 'session', 'environment');
+                foreach ($noticeKeys as $key) {
+                    if (array_key_exists($key, $notice)) {
+                        $this->filterKeys($notice[$key], $this->opt['keysBlocklist']);
+                    }
+                }
+                return $notice;
+            });
+        }
+
+        if (self::$instanceCount === 0) {
+            Instance::set($this);
+        }
+        self::$instanceCount++;
+       
     }
 
     private function newHTTPClient()
