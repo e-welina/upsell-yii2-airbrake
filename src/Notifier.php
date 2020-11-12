@@ -8,7 +8,9 @@ use Yii;
 
 class Notifier extends AirbrakeNotifier
 {
-    
+   
+    private $httpClient;
+ 
     
     protected function sendRequest($req)
     {
