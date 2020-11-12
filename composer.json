@@ -9,7 +9,7 @@
     "reporting",
     "logging"
   ],
-  "homepage": "https://github.com/e-welina/upsell-yii2-airbrake",
+  "homepage": "https://github.com/e-welina/upsell-yii2-airbrake.git",
   "type": "yii2-extension",
   "license": "MIT",
   
