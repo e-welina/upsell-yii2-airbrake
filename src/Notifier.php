@@ -151,5 +151,50 @@ class Notifier extends AirbrakeNotifier
 
         return null;
     }
+    
+    private function buildContext()
+    {
+        $context = [
+            'notifier' => [
+                'name' => 'phpbrake',
+                'version' => '0.7.5',
+                'url' => 'https://github.com/airbrake/phpbrake',
+            ],
+            'os' => php_uname(),
+            'language' => 'php ' . phpversion(),
+        ];
+
+        if (array_key_exists('appVersion', $this->opt)) {
+            $context['version'] = $this->opt['appVersion'];
+        }
+        if (array_key_exists('environment', $this->opt)) {
+            $context['environment'] = $this->opt['environment'];
+        }
+        if (($hostname = gethostname()) !== false) {
+            $context['hostname'] = $hostname;
+        }
+        if (array_key_exists('revision', $this->opt)) {
+            $context['revision'] = $this->opt['revision'];
+        } else if (array_key_exists('SOURCE_VERSION', $_ENV)) {
+            // https://devcenter.heroku.com/changelog-items/630
+            $context['revision'] = $_ENV['SOURCE_VERSION'];
+        }
+
+        if (array_key_exists('rootDirectory', $this->opt)) {
+            $context['rootDirectory'] = $this->opt['rootDirectory'];
+            $this->addFilter(function ($notice) {
+                return $this->rootDirectoryFilter($notice);
+            });
+
+            if (!array_key_exists('revision', $context)) {
+                $rev = $this->gitRevision($this->opt['rootDirectory']);
+                if ($rev) {
+                    $context['revision'] = $rev;
+                }
+            }
+        }
+
+        return $context;
+    }
 
 }
