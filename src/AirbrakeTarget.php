@@ -16,7 +16,7 @@ use yii\log\Target;
  *
  * Airbrake logging target for Yii2 logger.
  *
- * @package biller\yii2-phpbrake
+ * @package upsell\airbrake
  */
 class AirbrakeTarget extends Target
 {
