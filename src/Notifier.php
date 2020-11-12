@@ -10,7 +10,7 @@ use Yii;
 
 class Notifier extends AirbrakeNotifier
 {
-   
+    private static $instanceCount = 0;
     /**
      * Http client
      * @var GuzzleHttp\ClientInterface
