@@ -71,7 +71,8 @@ class Notifier extends AirbrakeNotifier
     protected function gitRevision($dir)
     {
         $headFile = join(DIRECTORY_SEPARATOR, [$dir, '.git', 'HEAD']);
-        if (!$headFile) return null;
+        return null;
+        
         $head = @file_get_contents($headFile);
         if ($head === false) {
             return null;
