@@ -8,29 +8,23 @@ use Yii;
 
 class Notifier extends AirbrakeNotifier
 {
-    private $httpClient;
-   
-    public function __construct($opt)
+    
+    
+    protected function sendRequest($req)
     {
-        parent::__construct($opt);
-        $this->httpClient = $this->newHTTPClient();
-        
+        return $this->httpClient->send($req, ['http_errors' => false, 'verify' => false]);
+    }
+    
+    protected function sendRequestAsync($req)
+    {
+        return $this->httpClient->sendAsync($req, ['http_errors' => false, 'verify' => false]);
     }
     
     public function getClient(){
         return $this->httpClient;
     }
 
-    private function newHTTPClient()
-    {
-        return new Client([
-            'connect_timeout' => 5,
-            'read_timeout' => 5,
-            'timeout' => 5,
-            'verify' => false
-        ]);
-       
-    }
+   
     
     
     public function buildNotice($exc)
