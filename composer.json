@@ -19,7 +19,7 @@
   },
   "autoload": {
     "psr-4": {
-      "e-welina\\upsell-yii2-airbrake\\": "src"
+      "upsell\\airbrake\\": "src"
     }
   }
 }
