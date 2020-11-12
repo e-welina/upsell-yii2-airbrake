@@ -5,6 +5,7 @@ namespace upsell\airbrake;
 use Airbrake\Notifier as AirbrakeNotifier;
 use GuzzleHttp\Client;
 use Airbrake\CodeHunk;
+use Airbrake\Instance;
 
 use Yii;
 
