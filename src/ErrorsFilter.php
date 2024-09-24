@@ -37,7 +37,7 @@ class ErrorsFilter extends BaseObject
      * with value specified in $replacement.
      * @return callable|Closure Closure to set as filter
      */
-    public function getErrorsFilter()
+    public function getParamsFilter()
     {
         return $this->errorsFilter;
     }
